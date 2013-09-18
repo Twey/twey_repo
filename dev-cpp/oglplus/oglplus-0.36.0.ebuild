@@ -10,19 +10,20 @@ KEYWORDS="~amd64"
 
 IUSE="inkscape png"
 
-RDEPEND="virtual/opengl
+RDEPEND="dev-libs/boost
+         virtual/opengl
          inkscape? ( media-gfx/inkscape )
          png? ( media-libs/libpng )"
 DEPEND="${RDEPEND}
         dev-util/cmake"
 
 src_configure() {
-    ./configure.sh --prefix="${D}"
+    ./configure.sh --prefix="${D}" || die "Configuration failed"
 }
-
+        
 src_install() {
     cd _build
-    ./configure.sh --build-and-install || die "Could not install"
+    gmake ${MAKEOPTS} || die "Could not install"
 
     dodoc doc/ CHANGELOG README.rst || die "Could not install docs"
 }
